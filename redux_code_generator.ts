@@ -10,7 +10,7 @@ import {
   getInsertActionKeyContent,
   getActionCreatorFilePath,
   getInsertActionCreatorContent,
-  prefixCapitalize
+  capitalize
 } from "./helper.ts";
 
 async function reduxCodeGenerator(
@@ -84,7 +84,7 @@ function createActionCreatorFile(
   const prefix = opt.prefix;
   const newActionCreator = actionCreatorFileTpl
                               .replace(/#_prefix#/g, prefix)
-                              .replace(/#prefix#/g, prefixCapitalize(prefix))
+                              .replace(/#prefix#/g, capitalize(prefix))
                               .replace(/#content#/g, insertActionCreatorContent);
   
   return Deno.writeTextFile(path, newActionCreator);

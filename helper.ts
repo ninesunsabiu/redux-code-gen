@@ -16,7 +16,7 @@ export function getInsertActionKeyContent(key: string) {
     .split("_")
     .map(toLocaleUpperCase)
     .join("_");
-  return `${key} = '${keyValue}'`;
+  return `${capitalize(key)} = '${keyValue}'`;
 }
 
 export function getActionCreatorFilePath(baseDir: string, prefix: string) {
@@ -25,7 +25,7 @@ export function getActionCreatorFilePath(baseDir: string, prefix: string) {
 
 export function getInsertActionCreatorContent({ prefix, key, payload }: { prefix: string; key: string; payload: string }) {
   const space8 = space4.repeat(2);
-  return `${key}(payload: ${payload}) {\n${space8}return { type: ${prefixCapitalize(prefix)}ActionKey.${key}, payload };\n${space4}}`;
+  return `${key}(payload: ${payload}) {\n${space8}return { type: ${capitalize(prefix)}ActionKey.${capitalize(key)}, payload };\n${space4}}`;
 }
 
 export function getReducerFilePath(baseDir: string, prefix: string) {
@@ -37,10 +37,10 @@ export function getSagaPath(baseDir: string, prefix: string) {
 }
 
 export function getEnumName(filePath: string) {
-  return prefixCapitalize(filePath.replace(/^.*\/(\w*)\.ts/, "$1"));
+  return capitalize(filePath.replace(/^.*\/(\w*)\.ts/, "$1"));
 }
 
-export function prefixCapitalize(prefix: string) {
+export function capitalize(prefix: string) {
   return prefix.replace(/^\w/, toLocaleUpperCase);
 }
 
