@@ -55,26 +55,18 @@ export function dashesToCamelCase(varName: string): string {
   );
 }
 
-function tryJsonParse(str: string): string | object {
-  try {
-    return JSON.parse(str);
-  } catch (error) {
-    return str;
-  }
-}
-
 /**
  * 转换主程序的输入参数
  * --xxx=bbb => { xxx: bbb }
  * 中间 xxx 遵循 中横杠命名法 转换为对象时会变为驼峰命名
  */
-export function mapArgsToPoj(args: string[]): object {
+export function mapArgsToPoj(args: string[]): Record<string, string> {
   return args.reduce(
     (acc, cur) => {
       const [key, value] = cur.replace(/^--/, "").split("=");
       return {
         ...acc,
-        [dashesToCamelCase(key)]: tryJsonParse(value),
+        [dashesToCamelCase(key)]: value,
       };
     },
     {},

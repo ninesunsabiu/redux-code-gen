@@ -11,11 +11,11 @@ import {
 } from "./helper.ts";
 
 async function reduxCodeGenerator(
-  { baseDir = `${Deno.cwd()}${FileSeparator}`, actionPrefix, key, payload }: {
+  { baseDir = `${Deno.cwd()}`, actionPrefix, key, payload }: {
     baseDir?: string;
     actionPrefix: string;
     key: string;
-    payload: object;
+    payload: string;
   },
 ) {
   const keyFilePath =

@@ -8,7 +8,7 @@ Deno.test({
         assertEquals(actual, {
             actionPrefix: 'action',
             key: 'someoneTest',
-            payload: { a: 124, b: 'string', c: { a: 124, b: 'fsd' } }
+            payload: '{ "a": 124, "b": "string", "c": { "a": 124, "b": "fsd" } }'
         });
     }
 })
