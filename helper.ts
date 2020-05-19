@@ -3,7 +3,7 @@ const space4 = " ".repeat(4);
 /**
  * 返回一个检测文件是否满足 enumKey 的正则表达式
  */
-export function enumRegexp(enumName: string) {
+export function enumRegExp(enumName: string) {
   return new RegExp(`(enum\\s+${enumName.replace(/^\w/, toLocaleUpperCase)}\\s*{)([\\s\\S]*};?)`);
 }
 
@@ -19,7 +19,7 @@ export function toLocaleUpperCase(str: string) {
  */
 export function insertToEnum(code: string, enumName: string, content: string) {
   return code.replace(
-    enumRegexp(enumName),
+    enumRegExp(enumName),
     (code, enumStart: string, enumEntriesAndClose: string) => {
       const dealWithCode = enumEntriesAndClose.replace(
         /[^\n]*?(\w+\s*[:=]\s*(['"])\w*\2)(,?(?:\n|^\s*$)*)(};?)/m,

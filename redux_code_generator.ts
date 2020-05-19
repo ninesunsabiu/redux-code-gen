@@ -1,7 +1,7 @@
 import { readFileStr } from "https://deno.land/std@v0.51.0/fs/read_file_str.ts";
 import { SEP as FileSeparator } from "https://deno.land/std@v0.51.0/path/separator.ts";
 import { writeFileStr } from "https://deno.land/std@v0.51.0/fs/write_file_str.ts";
-import { toLocaleUpperCase, enumRegexp, insertToEnum } from "./helper.ts";
+import { toLocaleUpperCase, enumRegExp, insertToEnum } from "./helper.ts";
 
 async function reduxCodeGenerator(
   { baseDir = `${Deno.cwd()}${FileSeparator}`, actionPrefix, key, payload }: {
@@ -31,7 +31,7 @@ async function insertKey(keyFilePath: string, key: string) {
   const insertContent = `${key} = '${keyValue}'`;
   const enumName = keyFilePath.replace(/^.*\/(\w*)\.ts/, "$1");
   const code = await readFileStr(keyFilePath);
-  if (enumRegexp(enumName).test(code)) {
+  if (enumRegExp(enumName).test(code)) {
     console.log("linjx 尝试插入 枚举 类型的Key");
     writeFileStr(keyFilePath, insertToEnum(code, enumName, insertContent));
   }
