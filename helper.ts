@@ -1,4 +1,35 @@
+import { SEP } from "https://deno.land/std@v0.51.0/path/separator.ts";
+
 export const space4 = " ".repeat(4);
+
+function getReduxSuitCommonFilePath(baseDir: string, prefix: string) {
+  return `${baseDir}${SEP}${prefix}${SEP}${prefix}`;
+}
+
+export function getActionKeyFilePath(baseDir: string, prefix: string) {
+  return `${getReduxSuitCommonFilePath(baseDir, prefix)}ActionKey.ts`;
+}
+
+export function getInsertActionKeyContent(key: string) {
+  const keyValue = key
+    .replace(/([a-z])([A-Z])/g, "$1_$2")
+    .split("_")
+    .map(toLocaleUpperCase)
+    .join("_");
+  return `${key} = '${keyValue}'`;
+}
+
+export function getActionCreatorFilePath(baseDir: string, prefix: string) {
+  return `${getReduxSuitCommonFilePath(baseDir, prefix)}Action.ts`;
+}
+
+export function getReducerFilePath(baseDir: string, prefix: string) {
+  return `${getReduxSuitCommonFilePath(baseDir, prefix)}Reducer.ts`;
+}
+
+export function getSagaPath(baseDir: string, prefix: string) {
+  return `${getReduxSuitCommonFilePath(baseDir, prefix)}Saga.ts`;
+}
 
 export function getEnumName(filePath: string) {
   return filePath.replace(/^.*\/(\w*)\.ts/, "$1").replace(/^\w/, toLocaleUpperCase);
