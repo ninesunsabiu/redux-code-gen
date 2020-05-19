@@ -33,11 +33,44 @@ export enum ${testKeyEnum} {
 }
 `;
 
+const emptyEnumContent = `
+export enum ${testKeyEnum} {  }
+`;
+
+const emptyEnumContentMultiLine = `
+export enum ${testKeyEnum} {
+
+
+
+            }
+`;
+
+const emptyEnumContentInline = `
+export enum ${testKeyEnum} {}
+`;
+const emptyEnumContentExpected = `
+export enum ${testKeyEnum} {
+    ${insertContent}
+}
+`;
+
 
 Deno.test({
     name: 'insert into enum test',
     fn(): void {
         const transformed = insertToEnum(testKeyFileContent, testKeyEnum, insertContent);
-        assertEquals(transformed, expected)
+        assertEquals(transformed, expected);
+    }
+});
+
+Deno.test({
+    name: 'insert into empty enum test',
+    fn(): void {
+        const transformed = insertToEnum(emptyEnumContent, testKeyEnum, insertContent);
+        const transformed2 = insertToEnum(emptyEnumContentMultiLine, testKeyEnum, insertContent);
+        const transformed3 = insertToEnum(emptyEnumContentInline, testKeyEnum, insertContent);
+        assertEquals(transformed, emptyEnumContentExpected);
+        assertEquals(transformed2, emptyEnumContentExpected);
+        assertEquals(transformed3, emptyEnumContentExpected);
     }
 });
