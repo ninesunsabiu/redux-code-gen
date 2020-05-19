@@ -1,0 +1,31 @@
+const space4 = " ".repeat(4);
+
+/**
+ * 返回一个检测文件是否满足 enumKey 的正则表达式
+ */
+export function enumRegexp(enumName: string) {
+  return new RegExp(`(enum\\s+${enumName.replace(/^\w/, toLocaleUpperCase)}\\s*{)([\\s\\S]*};?)`);
+}
+
+/**
+ * 一个比较函数式语义的把文本转为大写的函数
+ */
+export function toLocaleUpperCase(str: string) {
+  return String(str).toLocaleUpperCase();
+}
+
+/**
+ * 往枚举Key里面插入新的值
+ */
+export function insertToEnum(code: string, enumName: string, content: string) {
+  return code.replace(
+    enumRegexp(enumName),
+    (code, enumStart: string, enumEntriesAndClose: string) => {
+      const dealWithCode = enumEntriesAndClose.replace(
+        /[^\n]*?(\w+\s*[:=]\s*(['"])\w*\2)(,?(?:\n|^\s*$)*)(};?)/m,
+        `${space4}$1,\n${space4}${content}\n$4`,
+      );
+      return `${enumStart}${dealWithCode}`;
+    },
+  );
+}
