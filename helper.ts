@@ -1,14 +1,14 @@
-const space4 = " ".repeat(4);
+export const space4 = " ".repeat(4);
+
+export function getEnumName(filePath: string) {
+  return filePath.replace(/^.*\/(\w*)\.ts/, "$1").replace(/^\w/, toLocaleUpperCase);
+}
 
 /**
  * 返回一个检测文件是否满足 enumKey 的正则表达式
  */
 export function enumRegExp(enumName: string) {
-  return new RegExp(
-    `(enum\\s+${
-      enumName.replace(/^\w/, toLocaleUpperCase)
-    }\\s*{)([\\s\\S]*};?)`,
-  );
+  return new RegExp(`(enum\\s+${enumName}\\s*{)([\\s\\S]*};?)`);
 }
 
 function emptyEnumRegExp(enumName: string) {
