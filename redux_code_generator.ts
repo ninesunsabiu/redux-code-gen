@@ -78,11 +78,13 @@ function createActionCreatorFile(
 ) {
   console.log('创建新的 action 文件', path);
   /** 下面的代码 请不要格式化 */
-  const actionCreatorFileTpl = "import { ActionPayloadRecord } from '@/model/types';\nimport { #prefix#ActionKey } from './#prefix#ActionKey';\n\nexport const #prefix#ActionCreator = {\n    #content#\n};\n\ntype #prefix#ActionCreatorType = typeof #prefix#ActionCreator;\nexport type #prefix#Payload = ActionPayloadRecord<#prefix#ActionCreatorType>;\n";
+  const actionCreatorFileTpl = "import { ActionPayloadRecord } from '@/model/types';\nimport { #prefix#ActionKey } from './#_prefix#ActionKey';\n\nexport const #prefix#ActionCreator = {\n    #content#\n};\n\ntype #prefix#ActionCreatorType = typeof #prefix#ActionCreator;\nexport type #prefix#Payload = ActionPayloadRecord<#prefix#ActionCreatorType>;\n";
 
   const insertActionCreatorContent = getInsertActionCreatorContent(opt);
+  const prefix = opt.prefix;
   const newActionCreator = actionCreatorFileTpl
-                              .replace(/#prefix#/g, prefixCapitalize(opt.prefix))
+                              .replace(/#_prefix#/g, prefix)
+                              .replace(/#prefix#/g, prefixCapitalize(prefix))
                               .replace(/#content#/g, insertActionCreatorContent);
   
   return Deno.writeTextFile(path, newActionCreator);
