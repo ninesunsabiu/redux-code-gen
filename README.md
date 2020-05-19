@@ -11,7 +11,7 @@ https://raw.githubusercontent.com/ninesunsabiu/redux-code-gen/master/redux_code_
 --base-dir=<DIR_PATH> \
 --action-prefix=notice \
 --key=fetchUserInfo \
---payload='{"a": 32}'
+--payload='{ a: number; b: string; c: AGViewInfo }'
 
 ```
 |参数|说明|
@@ -25,7 +25,8 @@ https://raw.githubusercontent.com/ninesunsabiu/redux-code-gen/master/redux_code_
 
 ## TODO
 - [x] 插入已有的Key枚举
-- [ ] 新建Key枚举文件并插入key值
-- [ ] 生成 ActionCreator
+- [x] 新建Key枚举文件并插入key值
+- [x] 生成 ActionCreator
+- [ ] 更新已有的 ActionCreator
 - [ ] 生成 Reducer Handler
 - [ ] 生成 Saga Generator Function 

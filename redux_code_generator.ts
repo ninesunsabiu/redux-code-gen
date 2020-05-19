@@ -7,7 +7,10 @@ import {
   getEnumName,
   space4,
   getActionKeyFilePath,
-  getInsertActionKeyContent
+  getInsertActionKeyContent,
+  getActionCreatorFilePath,
+  getInsertActionCreatorContent,
+  prefixCapitalize
 } from "./helper.ts";
 
 async function reduxCodeGenerator(
@@ -18,16 +21,34 @@ async function reduxCodeGenerator(
     payload: string;
   },
 ) {
+
+  /** insert action key */
   const keyFilePath = getActionKeyFilePath(baseDir, actionPrefix);
-  Deno.stat(keyFilePath).then((result) => {
-    if (result.isFile) {
-      return insertKey(keyFilePath, key);
-    } else {
-      throw new Error('is not file create new actionKey file');
-    }
-  }).catch((error) => {
-    createKeyFile(keyFilePath, key);
+  insertOrCreate(keyFilePath, {
+    insertCallback: () => insertKey(keyFilePath, key),
+    createCallback: () => createKeyFile(keyFilePath, key)
   });
+
+  /** insert action creator */
+  const actionCreatorFilePath = getActionCreatorFilePath(baseDir, actionPrefix);
+  insertOrCreate(actionCreatorFilePath, {
+    insertCallback: () => Promise.resolve(),
+    createCallback: () => createActionCreatorFile(actionCreatorFilePath, { prefix: actionPrefix, key, payload })
+  });
+}
+
+function insertOrCreate(path: string, { insertCallback, createCallback }: { insertCallback: () => Promise<void>; createCallback: () => Promise<void> }) {
+  Deno.stat(path)
+    .then((result) => {
+      if (result.isFile) {
+        return insertCallback();
+      } else {
+        throw new Error('No such file');
+      }
+    })
+    .catch((error) => {
+      createCallback();
+    })
 }
 
 /**
@@ -49,6 +70,22 @@ function createKeyFile(keyFilePath: string, key: string) {
   console.log('创建新的 actionKey 文件', keyFilePath);
   const insertContent = getInsertActionKeyContent(key);
   return Deno.writeTextFile(keyFilePath, `\nexport enum ${getEnumName(keyFilePath)} {\n${space4}${insertContent}\n}\n`);
+}
+
+function createActionCreatorFile(
+  path: string,
+  opt: { prefix: string; key: string; payload: string }
+) {
+  console.log('创建新的 action 文件', path);
+  /** 下面的代码 请不要格式化 */
+  const actionCreatorFileTpl = "import { ActionPayloadRecord } from '@/model/types';\nimport { #prefix#ActionKey } from './#prefix#ActionKey';\n\nexport const #prefix#ActionCreator = {\n    #content#\n};\n\ntype #prefix#ActionCreatorType = typeof #prefix#ActionCreator;\nexport type #prefix#Payload = ActionPayloadRecord<#prefix#ActionCreatorType>;\n";
+
+  const insertActionCreatorContent = getInsertActionCreatorContent(opt);
+  const newActionCreator = actionCreatorFileTpl
+                              .replace(/#prefix#/g, prefixCapitalize(opt.prefix))
+                              .replace(/#content#/g, insertActionCreatorContent);
+  
+  return Deno.writeTextFile(path, newActionCreator);
 }
 
 if (import.meta.main) {

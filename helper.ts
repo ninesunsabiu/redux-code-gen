@@ -23,6 +23,11 @@ export function getActionCreatorFilePath(baseDir: string, prefix: string) {
   return `${getReduxSuitCommonFilePath(baseDir, prefix)}Action.ts`;
 }
 
+export function getInsertActionCreatorContent({ prefix, key, payload }: { prefix: string; key: string; payload: string }) {
+  const space8 = space4.repeat(2);
+  return `${key}(payload: ${payload}) {\n${space8}return { type: ${prefixCapitalize(prefix)}ActionKey.${key}, payload };\n${space4}}`;
+}
+
 export function getReducerFilePath(baseDir: string, prefix: string) {
   return `${getReduxSuitCommonFilePath(baseDir, prefix)}Reducer.ts`;
 }
@@ -32,7 +37,11 @@ export function getSagaPath(baseDir: string, prefix: string) {
 }
 
 export function getEnumName(filePath: string) {
-  return filePath.replace(/^.*\/(\w*)\.ts/, "$1").replace(/^\w/, toLocaleUpperCase);
+  return prefixCapitalize(filePath.replace(/^.*\/(\w*)\.ts/, "$1"));
+}
+
+export function prefixCapitalize(prefix: string) {
+  return prefix.replace(/^\w/, toLocaleUpperCase);
 }
 
 /**
