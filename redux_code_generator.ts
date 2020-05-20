@@ -6,12 +6,11 @@ import {
   mapArgsToPoj,
   getEnumName,
   space4,
-  getActionKeyFilePath,
   getInsertActionKeyContent,
-  getActionCreatorFilePath,
-  getInsertActionCreatorContent,
-  capitalize
+  capitalize,
+  getInsertActionCreatorContent
 } from "./helper.ts";
+import { getActionKeyFilePath, getActionCreatorFilePath } from "./file_path_helper.ts";
 
 async function reduxCodeGenerator(
   { baseDir = `${Deno.cwd()}`, actionPrefix, key, payload }: {

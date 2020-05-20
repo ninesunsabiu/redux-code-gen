@@ -1,14 +1,5 @@
-import { SEP } from "https://deno.land/std@v0.51.0/path/separator.ts";
 
 export const space4 = " ".repeat(4);
-
-function getReduxSuitCommonFilePath(baseDir: string, prefix: string) {
-  return `${baseDir}${SEP}${prefix}${SEP}${prefix}`;
-}
-
-export function getActionKeyFilePath(baseDir: string, prefix: string) {
-  return `${getReduxSuitCommonFilePath(baseDir, prefix)}ActionKey.ts`;
-}
 
 export function getInsertActionKeyContent(key: string) {
   const keyValue = key
@@ -19,21 +10,9 @@ export function getInsertActionKeyContent(key: string) {
   return `${capitalize(key)} = '${keyValue}'`;
 }
 
-export function getActionCreatorFilePath(baseDir: string, prefix: string) {
-  return `${getReduxSuitCommonFilePath(baseDir, prefix)}Action.ts`;
-}
-
 export function getInsertActionCreatorContent({ prefix, key, payload }: { prefix: string; key: string; payload: string }) {
   const space8 = space4.repeat(2);
   return `${key}(payload: ${payload}) {\n${space8}return { type: ${capitalize(prefix)}ActionKey.${capitalize(key)}, payload };\n${space4}}`;
-}
-
-export function getReducerFilePath(baseDir: string, prefix: string) {
-  return `${getReduxSuitCommonFilePath(baseDir, prefix)}Reducer.ts`;
-}
-
-export function getSagaPath(baseDir: string, prefix: string) {
-  return `${getReduxSuitCommonFilePath(baseDir, prefix)}Saga.ts`;
 }
 
 export function getEnumName(filePath: string) {
