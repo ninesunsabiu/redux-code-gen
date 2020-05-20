@@ -1,16 +1,18 @@
 import { readFileStr } from "https://deno.land/std@v0.51.0/fs/read_file_str.ts";
 import { writeFileStr } from "https://deno.land/std@v0.51.0/fs/write_file_str.ts";
 import {
-  enumRegExp,
-  insertToEnum,
   mapArgsToPoj,
-  getEnumName,
   space4,
-  getInsertActionKeyContent,
-  capitalize,
-  getInsertActionCreatorContent
+  capitalize
 } from "./helper.ts";
 import { getActionKeyFilePath, getActionCreatorFilePath } from "./file_path_helper.ts";
+import {
+  enumRegExp,
+  insertToEnum,
+  getEnumName,
+  getInsertActionKeyContent
+} from "./redux_key_helper.ts";
+import { getInsertActionCreatorContent } from "./redux_action_creator_helper.ts";
 
 async function reduxCodeGenerator(
   { baseDir = `${Deno.cwd()}`, actionPrefix, key, payload }: {

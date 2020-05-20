@@ -1,37 +1,8 @@
 
 export const space4 = " ".repeat(4);
 
-export function getInsertActionKeyContent(key: string) {
-  const keyValue = key
-    .replace(/([a-z])([A-Z])/g, "$1_$2")
-    .split("_")
-    .map(toLocaleUpperCase)
-    .join("_");
-  return `${capitalize(key)} = '${keyValue}'`;
-}
-
-export function getInsertActionCreatorContent({ prefix, key, payload }: { prefix: string; key: string; payload: string }) {
-  const space8 = space4.repeat(2);
-  return `${key}(payload: ${payload}) {\n${space8}return { type: ${capitalize(prefix)}ActionKey.${capitalize(key)}, payload };\n${space4}}`;
-}
-
-export function getEnumName(filePath: string) {
-  return capitalize(filePath.replace(/^.*\/(\w*)\.ts/, "$1"));
-}
-
 export function capitalize(prefix: string) {
   return prefix.replace(/^\w/, toLocaleUpperCase);
-}
-
-/**
- * 返回一个检测文件是否满足 enumKey 的正则表达式
- */
-export function enumRegExp(enumName: string) {
-  return new RegExp(`(enum\\s+${enumName}\\s*{)([\\s\\S]*};?)`);
-}
-
-function emptyEnumRegExp(enumName: string) {
-  return new RegExp(`(enum\\s+NoticeActionKey\\s*{)([\\s]*)(})`);
 }
 
 /**
@@ -39,29 +10,6 @@ function emptyEnumRegExp(enumName: string) {
  */
 export function toLocaleUpperCase(str: string) {
   return String(str).toLocaleUpperCase();
-}
-
-/**
- * 往枚举Key里面插入新的值
- */
-export function insertToEnum(code: string, enumName: string, content: string) {
-  if (emptyEnumRegExp(enumName).test(code)) {
-    // 往空枚举中插入值
-    return code.replace(
-      emptyEnumRegExp(enumName),
-      `$1\n${space4}${content}\n$3`,
-    );
-  }
-  return code.replace(
-    enumRegExp(enumName),
-    (code, enumStart: string, enumEntriesAndClose: string) => {
-      const dealWithCode = enumEntriesAndClose.replace(
-        /[^\n]*?(\w+\s*=\s*(['"])\w*\2)(,?(?:\n|^\s*$)*)(};?)/m,
-        `${space4}$1,\n${space4}${content}\n$4`,
-      );
-      return `${enumStart}${dealWithCode}`;
-    },
-  );
 }
 
 /**

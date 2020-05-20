@@ -11,4 +11,4 @@ Deno.test({
             payload: '{ "a": 124, "b": "string", "c": { "a": 124, "b": "fsd" } }'
         });
     }
-})
+});
