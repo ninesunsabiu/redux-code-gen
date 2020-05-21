@@ -39,3 +39,10 @@ export function mapArgsToPoj(args: string[]): Record<string, string> {
     {},
   );
 }
+
+export async function appendFilerStr(filename: string, data: string) {
+  const encoder = new TextEncoder();
+  await Deno.writeFile(filename, encoder.encode(data), {
+    append: true
+  });
+}

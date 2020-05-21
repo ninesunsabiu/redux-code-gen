@@ -1,11 +1,11 @@
 import { readFileStr } from "https://deno.land/std@v0.51.0/fs/read_file_str.ts";
-import { writeFileStr } from "https://deno.land/std@v0.51.0/fs/write_file_str.ts";
 import {
   mapArgsToPoj,
   space4,
-  capitalize
+  capitalize,
+  appendFilerStr
 } from "./helper.ts";
-import {getActionKeyFilePath, getActionCreatorFilePath, getActionPayloadFilePath, getReducerFilePath } from "./file_path_helper.ts";
+import {getActionKeyFilePath, getActionCreatorFilePath, getActionPayloadFilePath, getReducerFilePath, dirname } from "./file_path_helper.ts";
 import {
   enumRegExp,
   insertToEnum,
@@ -62,21 +62,27 @@ function insertOrCreate(path: string, { insertCallback, createCallback }: { inse
       }
     })
     .catch((error) => {
-      createCallback();
+      return Deno.stat(dirname(path)).then(
+        (result) => result.isDirectory,
+        (error) => Deno.mkdir(dirname(path), { recursive: true })
+      );
     })
+    .then(() => {
+      return createCallback();
+    })
+    
 }
 
 /**
- * 在书写 key.ts 的文件中 插入key
- * 确保 keyFilePath 文件存在 
+ * 在 key file 存在的前提下 插入新的 key
  */
 async function insertKey(keyFilePath: string, key: string) {
   const insertContent = getInsertActionKeyContent(key);
   const enumName = getEnumName(keyFilePath);
   const code = await readFileStr(keyFilePath);
   if (enumRegExp(enumName).test(code)) {
-    console.log("尝试插入 枚举 类型的Key", keyFilePath);
-    return writeFileStr(keyFilePath, insertToEnum(code, enumName, insertContent));
+    console.log("在已有的文件中插入", keyFilePath);
+    return Deno.writeTextFile(keyFilePath, insertToEnum(code, enumName, insertContent));
   }
   return Promise.resolve();
 }
@@ -92,8 +98,7 @@ async function insertActionCreator(
   opt: { prefix: string; key: string; payload: string }
 ) {
   console.log('在已有文件中插入 action creator', path);
-  const dataExisted = await Deno.readTextFile(path);
-  return Deno.writeTextFile(path, `${dataExisted}\n${getInsertActionCreatorContent(opt)}`);
+  return appendFilerStr(path, getInsertActionCreatorContent(opt));
 }
 
 function createActionCreatorFile(
