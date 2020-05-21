@@ -63,11 +63,14 @@ function insertOrCreate(path: string, { insertCallback, createCallback }: { inse
     })
     .catch((error) => {
       return Deno.stat(dirname(path)).then(
-        (result) => result.isDirectory,
-        (error) => Deno.mkdir(dirname(path), { recursive: true })
+        (result) => Promise.reject('exist dir'),
+        async (error) => {
+          await Deno.mkdir(dirname(path), { recursive: true });
+          return Promise.reject('after create dir');
+        }
       );
     })
-    .then(() => {
+    .catch(() => {
       return createCallback();
     })
     
