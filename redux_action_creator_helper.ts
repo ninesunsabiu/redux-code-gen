@@ -1,8 +1,12 @@
 import { space4, capitalize } from "./helper.ts";
+import { actionPayloadFileTpl } from "./action_payload_tpl.ts";
 
 export function getInsertActionCreatorContent(
   { prefix, key, payload }: { prefix: string; key: string; payload: string },
 ) {
-  const space8 = space4.repeat(2);
-  return `${key}(payload: ${payload}) {\n${space8}return { type: ${capitalize(prefix)}ActionKey.${capitalize(key)}, payload };\n${space4}}`;
+  return `\nexport function ${key}(payload: ${payload}) {\n${space4}return { type: ${capitalize(prefix)}ActionKey.${capitalize(key)}, payload };\n}\n`;
+}
+
+export function getActionPayloadFileContent(prefix: string) {
+  return actionPayloadFileTpl.replace(/#_prefix#/g, prefix).replace(/#prefix#/g, capitalize(prefix));
 }
