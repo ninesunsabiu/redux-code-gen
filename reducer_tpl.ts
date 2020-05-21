@@ -1,3 +1,15 @@
+export const reducerSwitchCaseTpl = `\
+        case #prefix#ActionKey.#key#:
+            return #_key#Handler(state, action.payload!);\
+`;
+
+export const reducerStateHandlerTpl = `\
+const #_key#Handler: #prefix#StateHandler<#prefix#ActionPayload['#_key#']> = (state, payload) => {
+    const {  } = payload;
+    return state;
+};\
+`;
+
 export const reducerFileTpl = `
 import { ReducerStateHandler } from '@/model/types';
 import { AGAction } from '@/model/AGAction';
@@ -16,15 +28,11 @@ const initialState = {
 
 export function reducer(state = initialState, action: AGAction<any>) {
     switch (action.type) {
-        case #prefix#ActionKey.#key#:
-            return #_key#Handler(state, action.payload!);
+${reducerSwitchCaseTpl}
         default:
             return state;
     }
 }
 
-const #_key#Handler: #prefix#StateHandler<#prefix#ActionPayload['#_key#']> = (state, payload) => {
-    const {  } = payload;
-    return state;
-};
+${reducerStateHandlerTpl}
 `;
