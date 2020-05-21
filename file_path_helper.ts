@@ -19,3 +19,7 @@ export function getReducerFilePath(baseDir: string, prefix: string) {
 export function getSagaFilePath(baseDir: string, prefix: string) {
   return pathResolve(getReduxSuitCommonFilePath(baseDir, prefix), `${prefix}Saga.ts`);
 }
+
+export function getActionPayloadFilePath(baseDir: string, prefix: string) {
+  return pathResolve(getReduxSuitCommonFilePath(baseDir, prefix), `${prefix}ActionPayload.ts`);
+}

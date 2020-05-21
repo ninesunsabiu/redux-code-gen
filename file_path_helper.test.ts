@@ -5,6 +5,7 @@ import {
   getActionCreatorFilePath,
   getReducerFilePath,
   getSagaFilePath,
+  getActionPayloadFilePath,
 } from "./file_path_helper.ts";
 
 
@@ -16,6 +17,7 @@ const actionKeyFilePath = `${suitDirExpectedPath}/${actionModule}ActionKey.ts`;
 const actionFilePath = `${suitDirExpectedPath}/${actionModule}Action.ts`;
 const reducerFilePath = `${suitDirExpectedPath}/${actionModule}Reducer.ts`;
 const sagaFilePath = `${suitDirExpectedPath}/${actionModule}Saga.ts`;
+const payloadFilePath = `${suitDirExpectedPath}/${actionModule}ActionPayload.ts`;
 
 Deno.test({
   name: "redux suit dir path test",
@@ -49,5 +51,12 @@ Deno.test({
     name: 'saga file path test',
     fn(): void {
         assertEquals(sagaFilePath, getSagaFilePath(baseDir, actionModule));
+    }
+});
+
+Deno.test({
+    name: 'payload types file path test',
+    fn(): void {
+        assertEquals(payloadFilePath, getActionPayloadFilePath(baseDir, actionModule));
     }
 });
