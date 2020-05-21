@@ -38,7 +38,7 @@ async function reduxCodeGenerator(
   });
   /** insert action payload */
   const actionPayloadFilePath = getActionPayloadFilePath(baseDir, actionPrefix);
-  insertOrCreate(actionPrefix, {
+  insertOrCreate(actionPayloadFilePath, {
     insertCallback: () => Promise.resolve(),
     createCallback: () => createActionPayloadFile(actionPayloadFilePath, actionPrefix)
   });
