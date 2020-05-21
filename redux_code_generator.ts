@@ -5,7 +5,7 @@ import {
   space4,
   capitalize
 } from "./helper.ts";
-import {getActionKeyFilePath, getActionCreatorFilePath, getActionPayloadFilePath } from "./file_path_helper.ts";
+import {getActionKeyFilePath, getActionCreatorFilePath, getActionPayloadFilePath, getReducerFilePath } from "./file_path_helper.ts";
 import {
   enumRegExp,
   insertToEnum,
@@ -13,6 +13,7 @@ import {
   getInsertActionKeyContent
 } from "./redux_key_helper.ts";
 import { getInsertActionCreatorContent, getActionPayloadFileContent } from "./redux_action_creator_helper.ts";
+import { getReducerFileContent } from "./redux_reducer_helper.ts";
 
 async function reduxCodeGenerator(
   { baseDir = `${Deno.cwd()}`, actionPrefix, key, payload }: {
@@ -42,6 +43,13 @@ async function reduxCodeGenerator(
     insertCallback: () => Promise.resolve(),
     createCallback: () => createActionPayloadFile(actionPayloadFilePath, actionPrefix)
   });
+
+  /** insert reducer */
+  const reducerFilePath = getReducerFilePath(baseDir, actionPrefix);
+  insertOrCreate(reducerFilePath, {
+    insertCallback: () => Promise.resolve(),
+    createCallback: () => createReducerFile(reducerFilePath, { prefix: actionPrefix, key })
+  })
 }
 
 function insertOrCreate(path: string, { insertCallback, createCallback }: { insertCallback: () => Promise<void>; createCallback: () => Promise<void> }) {
@@ -106,9 +114,12 @@ function createActionCreatorFile(
   return Deno.writeTextFile(path, newActionCreator);
 }
 
-
 async function createActionPayloadFile(path: string, prefix: string) {
   return Deno.writeTextFile(path, getActionPayloadFileContent(prefix));
+}
+
+async function createReducerFile(path: string, opt: { prefix: string; key: string }) {
+  return Deno.writeTextFile(path, getReducerFileContent(opt.prefix, opt.key));
 }
 
 if (import.meta.main) {
