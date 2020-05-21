@@ -13,7 +13,7 @@ import {
   getInsertActionKeyContent
 } from "./redux_key_helper.ts";
 import { getInsertActionCreatorContent, getActionPayloadFileContent } from "./redux_action_creator_helper.ts";
-import { getReducerFileContent } from "./redux_reducer_helper.ts";
+import { getReducerFileContent, insertNewReducerHandler } from "./redux_reducer_helper.ts";
 
 async function reduxCodeGenerator(
   { baseDir = `${Deno.cwd()}`, actionPrefix, key, payload }: {
@@ -47,7 +47,7 @@ async function reduxCodeGenerator(
   /** insert reducer */
   const reducerFilePath = getReducerFilePath(baseDir, actionPrefix);
   insertOrCreate(reducerFilePath, {
-    insertCallback: () => Promise.resolve(),
+    insertCallback: () => insertReducerFile(reducerFilePath, { prefix: actionPrefix, key }),
     createCallback: () => createReducerFile(reducerFilePath, { prefix: actionPrefix, key })
   })
 }
@@ -128,6 +128,11 @@ async function createActionPayloadFile(path: string, prefix: string) {
 
 async function createReducerFile(path: string, opt: { prefix: string; key: string }) {
   return Deno.writeTextFile(path, getReducerFileContent(opt.prefix, opt.key));
+}
+
+async function insertReducerFile(path: string, opt: { prefix: string; key: string }) {
+  const dataExisted = await Deno.readTextFile(path);
+  return Deno.writeTextFile(path, insertNewReducerHandler(dataExisted, opt));
 }
 
 if (import.meta.main) {
