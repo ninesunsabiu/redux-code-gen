@@ -4,7 +4,7 @@ import {
   getActionKeyFilePath,
   getActionCreatorFilePath,
   getReducerFilePath,
-  getSagaPath,
+  getSagaFilePath,
 } from "./file_path_helper.ts";
 
 
@@ -48,6 +48,6 @@ Deno.test({
 Deno.test({
     name: 'saga file path test',
     fn(): void {
-        assertEquals(sagaFilePath, getSagaPath(baseDir, actionModule));
+        assertEquals(sagaFilePath, getSagaFilePath(baseDir, actionModule));
     }
 });
