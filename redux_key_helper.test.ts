@@ -1,8 +1,13 @@
-import { insertToEnum } from "./redux_key_helper.ts";
+import { insertToEnum, getInsertActionKeyContent } from "./redux_key_helper.ts";
 import { assertEquals } from "https://deno.land/std@v0.51.0/testing/asserts.ts";
 
+const prefix = 'notice';
+const key = 'fetchTestKey';
+const keyCapitalized = 'FetchTestKey';
+const prefixUpperCased = 'NOTICE';
+
 const testKeyEnum = 'NoticeActionKey';
-const insertContent = 'fetchTestKey = "FETCH_TEST_KEY"';
+const insertContent = `${keyCapitalized} = '${prefixUpperCased}_FETCH_TEST_KEY'`;
 const testKeyFileContent = `
 export enum ${testKeyEnum} {
     FetchUnreadMessageCount = 'FetchUnreadMessageCount',
@@ -54,6 +59,12 @@ export enum ${testKeyEnum} {
 }
 `;
 
+Deno.test({
+    name: 'get insert content',
+    fn(): void {
+        assertEquals(getInsertActionKeyContent(prefix, key), insertContent);
+    }
+})
 
 Deno.test({
     name: 'insert into enum test',

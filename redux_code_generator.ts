@@ -5,7 +5,13 @@ import {
   capitalize,
   appendFilerStr
 } from "./helper.ts";
-import {getActionKeyFilePath, getActionCreatorFilePath, getActionPayloadFilePath, getReducerFilePath, dirname } from "./file_path_helper.ts";
+import {
+  getActionKeyFilePath,
+  getActionCreatorFilePath,
+  getActionPayloadFilePath,
+  getReducerFilePath,
+  dirname
+} from "./file_path_helper.ts";
 import {
   enumRegExp,
   insertToEnum,
@@ -27,8 +33,8 @@ async function reduxCodeGenerator(
   /** insert action key */
   const keyFilePath = getActionKeyFilePath(baseDir, actionPrefix);
   insertOrCreate(keyFilePath, {
-    insertCallback: () => insertKey(keyFilePath, key),
-    createCallback: () => createKeyFile(keyFilePath, key)
+    insertCallback: () => insertKey(keyFilePath, { prefix: actionPrefix, key }),
+    createCallback: () => createKeyFile(keyFilePath, { prefix: actionPrefix, key})
   });
 
   /** insert action creator */
@@ -79,20 +85,20 @@ function insertOrCreate(path: string, { insertCallback, createCallback }: { inse
 /**
  * 在 key file 存在的前提下 插入新的 key
  */
-async function insertKey(keyFilePath: string, key: string) {
-  const insertContent = getInsertActionKeyContent(key);
+async function insertKey(keyFilePath: string, opt: { prefix: string; key: string; }) {
+  const insertContent = getInsertActionKeyContent(opt.prefix, opt.key);
   const enumName = getEnumName(keyFilePath);
   const code = await readFileStr(keyFilePath);
   if (enumRegExp(enumName).test(code)) {
-    console.log("在已有的文件中插入", keyFilePath);
+    console.log("在现有文件 %s 中插入 Key: %s", keyFilePath, capitalize(opt.key));
     return Deno.writeTextFile(keyFilePath, insertToEnum(code, enumName, insertContent));
   }
   return Promise.resolve();
 }
 
-function createKeyFile(keyFilePath: string, key: string) {
-  console.log('创建新的 actionKey 文件', keyFilePath);
-  const insertContent = getInsertActionKeyContent(key);
+function createKeyFile(keyFilePath: string, opt: { prefix: string; key: string; }) {
+  console.log('创建新的 action key 文件: ', keyFilePath);
+  const insertContent = getInsertActionKeyContent(opt.prefix, opt.key);
   return Deno.writeTextFile(keyFilePath, `\nexport enum ${getEnumName(keyFilePath)} {\n${space4}${insertContent}\n}\n`);
 }
 
@@ -100,7 +106,7 @@ async function insertActionCreator(
   path: string,
   opt: { prefix: string; key: string; payload: string }
 ) {
-  console.log('在已有文件中插入 action creator', path);
+  console.log('在现有文件 %s 中插入 action creator: %s', path, opt.key);
   return appendFilerStr(path, getInsertActionCreatorContent(opt));
 }
 
@@ -123,21 +129,22 @@ function createActionCreatorFile(
 }
 
 async function createActionPayloadFile(path: string, prefix: string) {
+  console.log('创建新的 action payload 文件', path);
   return Deno.writeTextFile(path, getActionPayloadFileContent(prefix));
 }
 
 async function createReducerFile(path: string, opt: { prefix: string; key: string }) {
+  console.log('创建新的 action reducer 文件', path);
   return Deno.writeTextFile(path, getReducerFileContent(opt.prefix, opt.key));
 }
 
 async function insertReducerFile(path: string, opt: { prefix: string; key: string }) {
+  console.log('在现有文件 %s 中插入 reducer handler: %s', path, `${opt.key}Handler`);
   const dataExisted = await Deno.readTextFile(path);
   return Deno.writeTextFile(path, insertNewReducerHandler(dataExisted, opt));
 }
 
 if (import.meta.main) {
-  console.log("generator ...");
   const args: any = mapArgsToPoj(Deno.args);
-  console.log("receive args", args);
   reduxCodeGenerator(args);
 }

@@ -1,12 +1,12 @@
 import { toLocaleUpperCase, capitalize, space4 } from "./helper.ts";
 
-export function getInsertActionKeyContent(key: string) {
+export function getInsertActionKeyContent(prefix: string, key: string) {
   const keyValue = key
     .replace(/([a-z])([A-Z])/g, "$1_$2")
     .split("_")
     .map(toLocaleUpperCase)
     .join("_");
-  return `${capitalize(key)} = '${keyValue}'`;
+  return `${capitalize(key)} = '${toLocaleUpperCase(prefix)}_${keyValue}'`;
 }
 
 export function getEnumName(filePath: string) {
