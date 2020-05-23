@@ -6,7 +6,7 @@ export const reducerSwitchCaseTpl = `\
 export const reducerStateHandlerTpl = `\
 const #_key#Handler: #prefix#StateHandler<#prefix#ActionPayload['#_key#']> = (state, payload) => {
     const {  } = payload;
-    return state;
+    return { ...state };
 };\
 `;
 

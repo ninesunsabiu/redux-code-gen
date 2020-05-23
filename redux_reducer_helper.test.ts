@@ -34,7 +34,7 @@ export function reducer(state = initialState, action: AGAction<any>) {
 
 const ${key}Handler: ${prefixCapitalized}StateHandler<${prefixCapitalized}ActionPayload['${key}']> = (state, payload) => {
     const {  } = payload;
-    return state;
+    return { ...state };
 };
 `;
 
