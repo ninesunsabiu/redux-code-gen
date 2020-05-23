@@ -24,9 +24,8 @@ https://raw.githubusercontent.com/ninesunsabiu/redux-code-gen/master/redux_code_
 *P.S. 如果 raw.githubusercontent.com 无法访问 请善用搜索引擎解决问题*
 
 ## TODO
-- [x] 插入已有的Key枚举
-- [x] 新建Key枚举文件并插入key值
-- [x] 生成 ActionCreator
-- [ ] 更新已有的 ActionCreator
-- [ ] 生成 Reducer Handler
+- [x] 生成 Action Key
+- [x] 生成 Action Creator
+- [x] 生成 Reducer Handler
+- [x] 生成 Action Payload
 - [ ] 生成 Saga Generator Function 
