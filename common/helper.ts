@@ -22,6 +22,12 @@ export function dashesToCamelCase(varName: string): string {
   );
 }
 
+function transformBooleanValue(str: string | undefined) {
+  return /^false$/i.test(str ?? '') ? false : 
+            /^true$/i.test(str ?? '') ? true :
+              str;
+}
+
 /**
  * 转换主程序的输入参数
  * --xxx=bbb => { xxx: bbb }
@@ -33,7 +39,7 @@ export function mapArgsToPoj(args: string[]): Record<string, string> {
       const [key, value] = cur.replace(/^--/, "").split("=");
       return {
         ...acc,
-        [dashesToCamelCase(key)]: value,
+        [dashesToCamelCase(key)]: transformBooleanValue(value),
       };
     },
     {},
