@@ -12,6 +12,7 @@ https://raw.githubusercontent.com/ninesunsabiu/redux-code-gen/master/redux_code_
 --action-prefix=notice \
 --key=fetchUserInfo \
 --payload='{ a: number; b: string; c: AGViewInfo }'
+--saga=true
 
 ```
 |参数|说明|
@@ -20,6 +21,7 @@ https://raw.githubusercontent.com/ninesunsabiu/redux-code-gen/master/redux_code_
 |action-prefix|action前缀 将会影响文件名的匹配和文件中枚举关键字的查找|
 |key|action key|
 |payload|action payload|
+|saga|boolean 默认值 false; 是否生成生成 saga 处理代码；reducer和saga 只会生成其中一个|
 
 *P.S. 如果 raw.githubusercontent.com 无法访问 请善用搜索引擎解决问题*
 
@@ -28,4 +30,4 @@ https://raw.githubusercontent.com/ninesunsabiu/redux-code-gen/master/redux_code_
 - [x] 生成 Action Creator
 - [x] 生成 Reducer Handler
 - [x] 生成 Action Payload
-- [ ] 生成 Saga Generator Function 
+- [x] 生成 Saga Generator Function
