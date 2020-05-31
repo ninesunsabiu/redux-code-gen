@@ -1,5 +1,5 @@
-import { insertToEnum, getInsertActionKeyContent } from "./redux_key_helper.ts";
-import { assertEquals } from "https://deno.land/std@v0.51.0/testing/asserts.ts";
+import { insertToEnum, getInsertActionKeyContent } from './helper.ts';
+import { assertEquals } from 'https://deno.land/std@v0.51.0/testing/asserts.ts';
 
 const prefix = 'notice';
 const key = 'fetchTestKey';

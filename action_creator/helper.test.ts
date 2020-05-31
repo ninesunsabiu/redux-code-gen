@@ -1,5 +1,6 @@
-import { getActionPayloadFileContent } from "./redux_action_creator_helper.ts";
-import { assertEquals } from "https://deno.land/std@v0.51.0/testing/asserts.ts";
+import { getActionPayloadFileContent } from './helper.ts';
+import { assertEquals } from 'https://deno.land/std@v0.51.0/testing/asserts.ts';
+
 const prefix = 'notice';
 const prefixCapitalized = 'Notice';
 const actionPayloadFileTpl = `

@@ -1,4 +1,4 @@
-import { toLocaleUpperCase, capitalize, space4 } from "./helper.ts";
+import { toLocaleUpperCase, capitalize, space4 } from '../common/helper.ts';
 
 export function getInsertActionKeyContent(prefix: string, key: string) {
   const keyValue = key

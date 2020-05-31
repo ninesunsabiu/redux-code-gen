@@ -1,6 +1,6 @@
-import { assertEquals } from "https://deno.land/std@v0.51.0/testing/asserts.ts";
-import { getReducerFileContent, insertNewReducerHandler } from './redux_reducer_helper.ts';
-import { insertContentExpected } from "./redux_reducer_insert_expected.ts";
+import { assertEquals } from 'https://deno.land/std@v0.51.0/testing/asserts.ts';
+import { getReducerFileContent, insertNewReducerHandler } from './helper.ts';
+import { insertContentExpected } from './insert_expected.ts';
 
 const prefix = 'notice';
 const prefixCapitalized = 'Notice';

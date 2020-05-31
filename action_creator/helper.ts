@@ -1,5 +1,5 @@
-import { space4, capitalize } from "./helper.ts";
-import { actionPayloadFileTpl } from "./action_payload_tpl.ts";
+import { space4, capitalize } from '../common/helper.ts';
+import { actionPayloadFileTpl } from '../action_payload/action_payload_tpl.ts';
 
 export function getInsertActionCreatorContent(
   { prefix, key, payload }: { prefix: string; key: string; payload: string },

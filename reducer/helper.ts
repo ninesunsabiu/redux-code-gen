@@ -1,5 +1,5 @@
-import { reducerFileTpl, reducerSwitchCaseTpl, reducerStateHandlerTpl } from "./reducer_tpl.ts";
-import { capitalize } from "./helper.ts";
+import { reducerFileTpl, reducerSwitchCaseTpl, reducerStateHandlerTpl } from './reducer_tpl.ts';
+import { capitalize } from '../common/helper.ts';
 
 function replacePrefixAndKey(str: string, opt: { prefix: string; key: string }) {
   const { prefix, key } = opt;
