@@ -46,3 +46,12 @@ export async function appendFilerStr(filename: string, data: string) {
     append: true
   });
 }
+
+export function replacePrefixAndKey(str: string, opt: { prefix: string; key: string }) {
+  const { prefix, key } = opt;
+  return str
+    .replace(/#_prefix#/g, prefix)
+    .replace(/#prefix#/g, capitalize(prefix))
+    .replace(/#_key#/g, key)
+    .replace(/#key#/g, capitalize(key));
+}

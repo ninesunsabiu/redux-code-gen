@@ -1,14 +1,5 @@
 import { reducerFileTpl, reducerSwitchCaseTpl, reducerStateHandlerTpl } from './reducer_tpl.ts';
-import { capitalize } from '../common/helper.ts';
-
-function replacePrefixAndKey(str: string, opt: { prefix: string; key: string }) {
-  const { prefix, key } = opt;
-  return str
-    .replace(/#_prefix#/g, prefix)
-    .replace(/#prefix#/g, capitalize(prefix))
-    .replace(/#_key#/g, key)
-    .replace(/#key#/g, capitalize(key));
-}
+import { replacePrefixAndKey } from '../common/helper.ts';
 
 export function getReducerFileContent(prefix: string, key: string) {
   return replacePrefixAndKey(reducerFileTpl, { prefix, key });
