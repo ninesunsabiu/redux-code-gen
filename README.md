@@ -4,7 +4,7 @@
 因此想要利用 deno 实现这样的功能脚本
 
 ## Usage
-```base
+```bash
 
 $ deno run --allow-read --allow-write --allow-net \
 https://raw.githubusercontent.com/ninesunsabiu/redux-code-gen/master/redux_code_generator.ts \
