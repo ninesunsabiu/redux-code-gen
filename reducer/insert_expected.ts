@@ -5,7 +5,7 @@ const keyCapitalized = 'FetchUserInfo';
 const anotherKey = 'changeUserName';
 const anotherKeyCapitalized = 'ChangeUserName';
 
-export const insertContentExpected = `
+export const insertContentExpected = `\
 import { ReducerStateHandler } from '@/model/types';
 import { AGAction } from '@/model/AGAction';
 import { ${prefixCapitalized}ActionPayload } from './${prefix}ActionPayload';
@@ -17,7 +17,7 @@ interface AG${prefixCapitalized}ReducerState {
 
 type ${prefixCapitalized}StateHandler<P> = ReducerStateHandler<AG${prefixCapitalized}ReducerState, P>;
 
-const initialState = {
+const initialState: AG${prefixCapitalized}ReducerState = {
 
 };
 

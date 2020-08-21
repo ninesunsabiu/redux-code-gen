@@ -8,7 +8,8 @@ const prefixUpperCased = 'NOTICE';
 
 const testKeyEnum = 'NoticeActionKey';
 const insertContent = `${keyCapitalized} = '${prefixUpperCased}_FETCH_TEST_KEY'`;
-const testKeyFileContent = `
+
+const testKeyFileContent = `\
 export enum ${testKeyEnum} {
     FetchUnreadMessageCount = 'FetchUnreadMessageCount',
     FetchUnreadMessageCountDone = 'FetchUnreadMessageCountDone',
@@ -22,7 +23,7 @@ export enum ${testKeyEnum} {
     SetBotReqStatus = 'SetBotReqStatus'
 }
 `;
-const expected = `
+const expected = `\
 export enum ${testKeyEnum} {
     FetchUnreadMessageCount = 'FetchUnreadMessageCount',
     FetchUnreadMessageCountDone = 'FetchUnreadMessageCountDone',
@@ -38,50 +39,16 @@ export enum ${testKeyEnum} {
 }
 `;
 
-const emptyEnumContent = `
-export enum ${testKeyEnum} {  }
-`;
-
-const emptyEnumContentMultiLine = `
-export enum ${testKeyEnum} {
-
-
-
-            }
-`;
-
-const emptyEnumContentInline = `
-export enum ${testKeyEnum} {}
-`;
-const emptyEnumContentExpected = `
-export enum ${testKeyEnum} {
-    ${insertContent}
-}
-`;
-
 Deno.test({
-    name: 'get insert content',
+    name: 'get insert key: inline',
     fn(): void {
         assertEquals(getInsertActionKeyContent(prefix, key), insertContent);
     }
 })
 
 Deno.test({
-    name: 'insert into enum test',
+    name: 'get insert key: file',
     fn(): void {
-        const transformed = insertToEnum(testKeyFileContent, testKeyEnum, insertContent);
-        assertEquals(transformed, expected);
-    }
-});
-
-Deno.test({
-    name: 'insert into empty enum test',
-    fn(): void {
-        const transformed = insertToEnum(emptyEnumContent, testKeyEnum, insertContent);
-        const transformed2 = insertToEnum(emptyEnumContentMultiLine, testKeyEnum, insertContent);
-        const transformed3 = insertToEnum(emptyEnumContentInline, testKeyEnum, insertContent);
-        assertEquals(transformed, emptyEnumContentExpected);
-        assertEquals(transformed2, emptyEnumContentExpected);
-        assertEquals(transformed3, emptyEnumContentExpected);
+        assertEquals(insertToEnum(testKeyFileContent, testKeyEnum, insertContent), expected);
     }
 });

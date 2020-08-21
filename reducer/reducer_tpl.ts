@@ -10,7 +10,7 @@ const #_key#Handler: #prefix#StateHandler<#prefix#ActionPayload['#_key#']> = (st
 };\
 `;
 
-export const reducerFileTpl = `
+export const reducerFileTpl = `\
 import { ReducerStateHandler } from '@/model/types';
 import { AGAction } from '@/model/AGAction';
 import { #prefix#ActionPayload } from './#_prefix#ActionPayload';
@@ -22,7 +22,7 @@ interface AG#prefix#ReducerState {
 
 type #prefix#StateHandler<P> = ReducerStateHandler<AG#prefix#ReducerState, P>;
 
-const initialState = {
+const initialState: AG#prefix#ReducerState = {
 
 };
 

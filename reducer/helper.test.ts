@@ -7,7 +7,7 @@ const prefixCapitalized = 'Notice';
 const key = 'fetchUserInfo';
 const keyCapitalized = 'FetchUserInfo';
 
-const contentExpected = `
+const contentExpected = `\
 import { ReducerStateHandler } from '@/model/types';
 import { AGAction } from '@/model/AGAction';
 import { ${prefixCapitalized}ActionPayload } from './${prefix}ActionPayload';
@@ -19,7 +19,7 @@ interface AG${prefixCapitalized}ReducerState {
 
 type ${prefixCapitalized}StateHandler<P> = ReducerStateHandler<AG${prefixCapitalized}ReducerState, P>;
 
-const initialState = {
+const initialState: AG${prefixCapitalized}ReducerState = {
 
 };
 

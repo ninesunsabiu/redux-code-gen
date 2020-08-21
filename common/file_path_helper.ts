@@ -1,4 +1,4 @@
-import { resolve as pathResolve, dirname } from 'https://deno.land/std@v0.51.0/path/mod.ts';
+import { resolve as pathResolve, dirname } from 'https://deno.land/std/path/mod.ts';
 
 export function getReduxSuitCommonFilePath(baseDir: string, prefix: string) {
   return pathResolve(baseDir, prefix);

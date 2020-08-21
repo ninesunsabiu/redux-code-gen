@@ -20,21 +20,10 @@ export function enumRegExp(enumName: string) {
   return new RegExp(`(enum\\s+${enumName}\\s*{)([\\s\\S]*};?)`);
 }
 
-function emptyEnumRegExp(enumName: string) {
-  return new RegExp(`(enum\\s+NoticeActionKey\\s*{)([\\s]*)(})`);
-}
-
 /**
  * 往枚举Key里面插入新的值
  */
 export function insertToEnum(code: string, enumName: string, content: string) {
-  if (emptyEnumRegExp(enumName).test(code)) {
-    // 往空枚举中插入值
-    return code.replace(
-      emptyEnumRegExp(enumName),
-      `$1\n${space4}${content}\n$3`,
-    );
-  }
   return code.replace(
     enumRegExp(enumName),
     (code, enumStart: string, enumEntriesAndClose: string) => {

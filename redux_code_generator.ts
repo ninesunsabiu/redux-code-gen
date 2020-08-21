@@ -111,7 +111,7 @@ async function insertKey(keyFilePath: string, opt: { prefix: string; key: string
 function createKeyFile(keyFilePath: string, opt: { prefix: string; key: string; }) {
   console.log('创建新的 action key 文件: ', keyFilePath);
   const insertContent = getInsertActionKeyContent(opt.prefix, opt.key);
-  return Deno.writeTextFile(keyFilePath, `\nexport enum ${getEnumName(keyFilePath)} {\n${space4}${insertContent}\n}\n`);
+  return Deno.writeTextFile(keyFilePath, `export enum ${getEnumName(keyFilePath)} {\n${space4}${insertContent}\n}\n`);
 }
 
 async function insertActionCreator(
@@ -128,7 +128,7 @@ function createActionCreatorFile(
 ) {
   console.log('创建新的 action 文件', path);
   /** 下面的代码 请不要格式化 */
-  const actionCreatorFileTpl = "\nimport { #prefix#ActionKey } from './#_prefix#ActionKey';\n#content#";
+  const actionCreatorFileTpl = "import { #prefix#ActionKey } from './#_prefix#ActionKey';\n#content#";
 
   const insertActionCreatorContent = getInsertActionCreatorContent(opt);
   const prefix = opt.prefix;
